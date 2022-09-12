@@ -1,10 +1,12 @@
 package com.cydeo.bean_annotation;
 
 import com.cydeo.bean_annotation.casefactory.Case;
+import com.cydeo.bean_annotation.casefactory.DellCase;
 import com.cydeo.bean_annotation.config.ComputerConfig;
 import com.cydeo.bean_annotation.config.RandomConfig;
 import com.cydeo.bean_annotation.monitorfactory.Monitor;
 import com.cydeo.bean_annotation.monitorfactory.SonyMonitor;
+import com.cydeo.bean_annotation.motherboardfactory.AsusMotherboard;
 import com.cydeo.bean_annotation.motherboardfactory.Motherboard;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -14,22 +16,40 @@ public class ComputerTest {
 
     public static void main(String[] args) {
 
+        System.out.println("Creating container");
+
         //Creating container by using Application Context
         ApplicationContext container = new AnnotationConfigApplicationContext(ComputerConfig.class, RandomConfig.class);
 
         //Creating container by using BeanFactory
         BeanFactory context = new AnnotationConfigApplicationContext();
 
-        Monitor theMonitor = container.getBean(Monitor.class);
-        // SonyMonitor theMonitor = container.getBean(SonyMonitor.class);
+        System.out.println("Retrieving the beans");
+
+        Monitor theMonitor = container.getBean(Monitor.class); // giving noUniqueBeanDefinitionException if you don't have name attribute or @Primary
+//        Monitor theMonitor = container.getBean(SonyMonitor.class);
+//        SonyMonitor sony = container.getBean(SonyMonitor.class);
 
         Case theCase = container.getBean(Case.class);
+//        DellCase dell = container.getBean(DellCase.class);
 
         Motherboard theMotherboard = container.getBean(Motherboard.class);
+//        AsusMotherboard asus = container.getBean(AsusMotherboard.class);
 
         PC myPc = new PC(theCase, theMonitor, theMotherboard);
 
         myPc.powerUp();
+
+//        theMonitor.drawPixelAt();
+
+        theCase.pressPowerButton();
+
+        System.out.println("multiple objects");
+
+//        Monitor theMonitor2 = container.getBean("monitorSony", Monitor.class); //DEFAULT BEAN NAME, same name as method name
+        Monitor theMonitor3 = container.getBean("sony", Monitor.class); //CUSTOM BEAN NAME by using name attribute
+        Monitor theMonitor4 = container.getBean(Monitor.class); //PRIMARY
+
 
     }
 }
