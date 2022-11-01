@@ -6,6 +6,10 @@ import com.cydeo.repository.RegionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 @Component
 public class QueryDemo implements CommandLineRunner {
 
