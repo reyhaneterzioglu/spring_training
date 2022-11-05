@@ -1,12 +1,15 @@
 package com.cydeo.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class MovieCinema extends BaseEntity {
@@ -19,5 +22,12 @@ public class MovieCinema extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
+
+    @Override
+    public String toString() {
+        return "MovieCinema{" +
+                "dateTime=" + dateTime +
+                '}';
+    }
 
 }
