@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 
@@ -22,21 +23,29 @@ public class Consume_RestTemplate {
     }
 
     @GetMapping // end point to consume https://jsonplaceholder.typicode.com/users
-    public ResponseEntity<User[]> readAllUsers(){
+    public ResponseEntity<User[]> readAllUsers() {
 
-       return restTemplate.getForEntity(URI, User[].class); // returns ResponseEntity
+        return restTemplate.getForEntity(URI, User[].class); // returns ResponseEntity
     }
 
     @GetMapping("{id}")
-    public Object readUser(@PathVariable("id")Integer id){
+    public Object readUser(@PathVariable("id") Integer id) {
 
         String URL = URI + "/{id}";
 
         return restTemplate.getForObject(URL, Object.class, id);
     }
 
+//    @GetMapping("{id}")
+//    public Object readUser(@PathVariable("id") Integer id) {
+//
+//        String URL = URI + "/" +id;
+//
+//        return restTemplate.getForObject(URL, Object.class);
+//    }
+
     @GetMapping("/test")
-    public ResponseEntity<Object> consumePostFromDummyApi(){
+    public ResponseEntity<Object> consumePostFromDummyApi() {
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -47,4 +56,15 @@ public class Consume_RestTemplate {
 
         return restTemplate.exchange("https://dummyapi.io/data/v1/user?limit=10", HttpMethod.GET, entity, Object.class);
     }
+
+//    @GetMapping("/test")
+//    public ResponseEntity<Object> consumePostFromDummyApi() {
+//        RequestEntity<Void> requestEntity =
+//                RequestEntity
+//                        .get("https://dummyapi.io/data/v1/user?limit=10")
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .header("app-id", "6298ebfecd0551211fce37a6")
+//                        .build();
+//        return restTemplate.exchange(requestEntity, Object.class);
+//    }
 }
